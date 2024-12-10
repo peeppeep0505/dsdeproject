@@ -1,6 +1,7 @@
 from sklearn.cluster import DBSCAN
 from typing import Dict, Optional, Tuple
 from pyvis.network import Network
+from wordcloud import WordCloud
 import networkx as nx
 import streamlit as st
 import matplotlib.pyplot as plt
@@ -221,7 +222,7 @@ file_path = st.sidebar.selectbox('Dataset Year', ['2018', '2019', '2020', '2021'
 st.title("Chulalongkorn Research Papers Analysis")
 
 # Streamlit viz selection
-visualization_type = st.selectbox('Select Visualization Type', ['Map', 'Network'])
+visualization_type = st.selectbox('Select Visualization Type', ['Map', 'Network','WordCloud'])
 
 # Spatial viz
 if visualization_type == 'Map':
@@ -308,7 +309,7 @@ if visualization_type == 'Map':
         view_state = pdk.ViewState(
             latitude=df['latitude'].mean(),
             longitude=df['longitude'].mean(),
-            zoom=2
+            zoom=1.5
         )
 
         deck = pdk.Deck(
@@ -354,7 +355,7 @@ if visualization_type == 'Map':
         view_state = pdk.ViewState(
             latitude=df['latitude'].mean(),
             longitude=df['longitude'].mean(),
-            zoom=2
+            zoom=1.5
         )
 
         deck = pdk.Deck(
@@ -589,3 +590,21 @@ if visualization_type == 'Network':
                 )
         else:
             st.info("Please select or upload a network in the Visualization tab")
+
+
+#Word Cloud viz
+if visualization_type == 'WordCloud':
+    dfkw = pd.read_csv('data/keyword/finalpredict.csv')
+
+    # สร้าง Word Cloud
+    word_dict = dict(zip(dfkw['word'], dfkw['citedby_predict']))
+    wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(word_dict)
+
+    # แสดงผลใน Streamlit
+    st.title('Word Cloud of Predicted Citedby Contributions')
+
+    # แสดง Word Cloud
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.imshow(wordcloud, interpolation='bilinear')
+    ax.axis('off')  
+    st.pyplot(fig) 
