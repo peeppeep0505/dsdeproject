@@ -250,7 +250,7 @@ if visualization_type == 'Map':
     num_top_clusters = st.sidebar.slider('Number of Top Clusters to Display', 1, 50, 20)
 
     # Load the data from the CSV file
-    df = pd.read_csv('City/' + file_path +'_city_sum_coordinate.csv')
+    df = pd.read_csv(f'data/city/{file_path}_city_sum_coordinate.csv')
     df['sum'] = df['sum'].apply(lambda x: x * 25)
 
     try:
@@ -402,7 +402,7 @@ if visualization_type == 'Network':
     # Input and Visualization tab
     with tab_viz:
         # Load the data from CSV file
-        df = pd.read_csv(f"authorship/filtered_authorship_{file_path}.csv", engine="python", sep=",", quotechar='"', on_bad_lines="skip")
+        df = pd.read_csv(f"data/authorship/filtered_authorship_{file_path}.csv", engine="python", sep=",", quotechar='"', on_bad_lines="skip")
         if len(df.columns) < 2:
             raise ValueError("CSV file must have at least two columns for source and target nodes")
         source_col, target_col = df.columns[0], df.columns[1]

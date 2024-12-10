@@ -4,7 +4,7 @@ import csv
 
 # Specify the folder containing the JSON files
 folder_path = "2018"
-csv_file_path = 'City/' + folder_path + '_city.csv'
+csv_file_path = f'City/{folder_path}_city.csv'
 
 counter = 0
 data_rows = []
